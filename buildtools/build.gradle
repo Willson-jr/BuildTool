@@ -1,0 +1,34 @@
+plugins {
+    id 'java'
+}
+
+group 'com.epam.stringutils'
+version '1.3.5'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.apache.commons:commons-lang3:3.10'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+}
+
+test {
+    useJUnitPlatform()
+}
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'utils-1.3.5.jar',
+                'Implementation-Version': version,
+                'Main-Class': 'com.epam.stringutils'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    baseName = 'utils'
+    with jar
+}
